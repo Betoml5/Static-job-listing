@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [jobs, setJobs] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/data")
+    fetch("http://127.0.0.1:3001/data")
       .then((res) => res.json())
       .then((data) => setJobs(data));
     console.log(jobs);
@@ -15,22 +16,35 @@ function App() {
     <div className="App">
       <header className="header"></header>
 
-      <section></section>
+      <section>
+        {tags.map((tag) => (
+          <div>
+            <p>{tag}</p>
+            <div>
+              <img src="/icon-remove.svg" alt="" />
+            </div>
+          </div>
+        ))}
+      </section>
 
       <section className="jobs__container">
         {jobs.map((job) => (
           <div className="job__container-card">
             <img src={job.logo} alt={job.company} />
-            <h3>{job.company}</h3>
-            <p>{job.position}</p>
-            <div>
+            <div className="job__container-company-name">
+              <h3>{job.company}</h3>
+              {job.new && <p className="job__new">New!</p>}
+              {job.featured && <p className="job__featured">Featured!</p>}
+            </div>
+            <p className="job__container-position">{job.position}</p>
+            <div className="job__container-date">
               <p>{job.postedAt}</p>
               <p>{job.contract}</p>
               <p>{job.location}</p>
             </div>
-            <div>
+            <div className="jobs__container-card-tools">
               {job.tools.map((tool) => (
-                <p>{tool}</p>
+                <p key={tool}>{tool}</p>
               ))}
             </div>
           </div>
