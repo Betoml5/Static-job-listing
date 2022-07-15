@@ -16,12 +16,12 @@ function App() {
     <div className="App">
       <header className="header"></header>
 
-      <section>
+      <section className="tools__container">
         {tags.map((tag) => (
-          <div>
+          <div className="tag__container">
             <p>{tag}</p>
-            <div>
-              <img src="/icon-remove.svg" alt="" />
+            <div className="removeIconContainer">
+              <img src="../images/icon-remove.svg" alt="" />
             </div>
           </div>
         ))}
@@ -44,7 +44,14 @@ function App() {
             </div>
             <div className="jobs__container-card-tools">
               {job.tools.map((tool) => (
-                <p key={tool}>{tool}</p>
+                <p
+                  key={tool}
+                  onClick={() => {
+                    setTags([...tags, tool]);
+                  }}
+                >
+                  {tool}
+                </p>
               ))}
             </div>
           </div>
