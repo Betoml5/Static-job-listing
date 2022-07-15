@@ -16,16 +16,27 @@ function App() {
     <div className="App">
       <header className="header"></header>
 
-      <section className="tools__container">
-        {tags.map((tag) => (
-          <div className="tag__container">
-            <p>{tag}</p>
-            <div className="removeIconContainer">
-              <img src="../images/icon-remove.svg" alt="" />
-            </div>
+      {tags.length > 0 && (
+        <section className="tools__container">
+          <div className="tools__container-tagCards">
+            {tags.map((tag) => (
+              <div className="tag__container">
+                <p>{tag}</p>
+                <div
+                  className="removeIconContainer"
+                  onClick={() => {
+                    setTags(tags.filter((t) => t !== tag));
+                  }}
+                >
+                  <img src="../images/icon-remove.svg" alt="" />
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </section>
+
+          <p onClick={() => setTags([])}>Clear</p>
+        </section>
+      )}
 
       <section className="jobs__container">
         {jobs.map((job) => (
