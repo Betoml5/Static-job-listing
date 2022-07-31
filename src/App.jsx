@@ -4,18 +4,23 @@ import { useEffect, useState } from "react";
 function App() {
   const [jobs, setJobs] = useState([]);
   const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:3001/data")
       .then((res) => res.json())
       .then((data) => setJobs(data));
-    console.log(jobs);
   }, []);
+
+  const addTool = (tool) => {
+    if (!tags.includes(tool)) {
+      setTags([...tags, tool]);
+    }
+  };
 
   return (
     <div className="App">
       <header className="header"></header>
-
       {tags.length > 0 && (
         <section className="tools__container">
           <div className="tools__container-tagCards">
@@ -55,12 +60,7 @@ function App() {
             </div>
             <div className="jobs__container-card-tools">
               {job.tools.map((tool) => (
-                <p
-                  key={tool}
-                  onClick={() => {
-                    setTags([...tags, tool]);
-                  }}
-                >
+                <p key={tool} onClick={() => addTool(tool)}>
                   {tool}
                 </p>
               ))}
