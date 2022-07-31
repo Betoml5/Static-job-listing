@@ -6,10 +6,14 @@ function App() {
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
-  useEffect(() => {
+  const getJobs = () => {
     fetch("http://127.0.0.1:3001/data")
       .then((res) => res.json())
       .then((data) => setJobs(data));
+  };
+
+  useEffect(() => {
+    getJobs();
   }, []);
 
   const addTool = (tool) => {
@@ -17,6 +21,19 @@ function App() {
       setTags([...tags, tool]);
     }
   };
+
+  useEffect(() => {
+    if (!tags) {
+      getJobs();
+      return;
+    }
+
+    const newJobs = jobs.filter((job) => {
+      return job.tools.some((tool) => tags.includes(tool));
+    });
+
+    setJobs(newJobs);
+  }, [tags]);
 
   return (
     <div className="App">
@@ -39,7 +56,14 @@ function App() {
             ))}
           </div>
 
-          <p onClick={() => setTags([])}>Clear</p>
+          <p
+            onClick={() => {
+              setTags([]);
+              getJobs();
+            }}
+          >
+            Clear
+          </p>
         </section>
       )}
 
