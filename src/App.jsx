@@ -23,7 +23,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (!tags) {
+    if (tags.length === 0) {
       getJobs();
       return;
     }
